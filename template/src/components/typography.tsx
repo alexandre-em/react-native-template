@@ -1,71 +1,94 @@
-import { Text, StyleSheet } from 'react-native';
+import { StyleSheet, Text, useColorScheme } from 'react-native';
+
 import React, { PropsWithChildren } from 'react';
 
 export function BodyXl({ children }: PropsWithChildren) {
-  return <Text style={styles.bodyXl}>{children}</Text>;
+  const theme = useColorScheme();
+  return <Text style={[styles.bodyXl, theme === 'dark' ? styles.dark : styles.light]}>{children}</Text>;
 }
 
 export function BodyL({ children }: PropsWithChildren) {
-  return <Text style={styles.bodyL}>{children}</Text>;
+  const theme = useColorScheme();
+  return <Text style={[styles.bodyL, theme === 'dark' ? styles.dark : styles.light]}>{children}</Text>;
 }
 
 export function BodyM({ children }: PropsWithChildren) {
-  return <Text style={styles.bodyM}>{children}</Text>;
+  const theme = useColorScheme();
+  return <Text style={[styles.bodyM, theme === 'dark' ? styles.dark : styles.light]}>{children}</Text>;
 }
 
 export function BodyS({ children }: PropsWithChildren) {
-  return <Text style={styles.bodyS}>{children}</Text>;
+  const theme = useColorScheme();
+  return <Text style={[styles.bodyS, theme === 'dark' ? styles.dark : styles.light]}>{children}</Text>;
 }
 
 export function BodyXs({ children }: PropsWithChildren) {
-  return <Text style={styles.bodyXs}>{children}</Text>;
+  const theme = useColorScheme();
+  return <Text style={[styles.bodyXs, theme === 'dark' ? styles.dark : styles.light]}>{children}</Text>;
 }
 
 export function BodyXxs({ children }: PropsWithChildren) {
-  return <Text style={styles.bodyXxs}>{children}</Text>;
+  const theme = useColorScheme();
+  return <Text style={[styles.bodyXxs, theme === 'dark' ? styles.dark : styles.light]}>{children}</Text>;
 }
 
 export function BodyXxxs({ children }: PropsWithChildren) {
-  return <Text style={styles.bodyXxxs}>{children}</Text>;
+  const theme = useColorScheme();
+  return <Text style={[styles.bodyXxxs, theme === 'dark' ? styles.dark : styles.light]}>{children}</Text>;
 }
 
 export function HeaderH1({ children }: PropsWithChildren) {
-  return <Text style={styles.HeaderH1}>{children}</Text>;
+  const theme = useColorScheme();
+  return <Text style={[styles.HeaderH1, theme === 'dark' ? styles.dark : styles.light]}>{children}</Text>;
 }
 
 export function HeaderH2({ children }: PropsWithChildren) {
-  return <Text style={styles.HeaderH2}>{children}</Text>;
+  const theme = useColorScheme();
+  return <Text style={[styles.HeaderH2, theme === 'dark' ? styles.dark : styles.light]}>{children}</Text>;
 }
 
 export function HeaderH3({ children }: PropsWithChildren) {
-  return <Text style={styles.HeaderH3}>{children}</Text>;
+  const theme = useColorScheme();
+  return <Text style={[styles.HeaderH3, theme === 'dark' ? styles.dark : styles.light]}>{children}</Text>;
 }
 
 export function HeaderH4({ children }: PropsWithChildren) {
-  return <Text style={styles.HeaderH4}>{children}</Text>;
+  const theme = useColorScheme();
+  return <Text style={[styles.HeaderH4, theme === 'dark' ? styles.dark : styles.light]}>{children}</Text>;
 }
 
 export function HeaderH5({ children }: PropsWithChildren) {
-  return <Text style={styles.HeaderH5}>{children}</Text>;
+  const theme = useColorScheme();
+  return <Text style={[styles.HeaderH5, theme === 'dark' ? styles.dark : styles.light]}>{children}</Text>;
 }
 
 export function HeaderH6({ children }: PropsWithChildren) {
-  return <Text style={styles.HeaderH6}>{children}</Text>;
+  const theme = useColorScheme();
+  return <Text style={[styles.HeaderH6, theme === 'dark' ? styles.dark : styles.light]}>{children}</Text>;
 }
 
 export function TitleH1({ children }: PropsWithChildren) {
-  return <Text style={styles.TitleH1}>{children}</Text>;
+  const theme = useColorScheme();
+  return <Text style={[styles.TitleH1, theme === 'dark' ? styles.dark : styles.light]}>{children}</Text>;
 }
 
 export function ParagraphP1({ children }: PropsWithChildren) {
-  return <Text style={styles.ParagraphP1}>{children}</Text>;
+  const theme = useColorScheme();
+  return <Text style={[styles.ParagraphP1, theme === 'dark' ? styles.dark : styles.light]}>{children}</Text>;
 }
 
 export function ParagraphP2({ children }: PropsWithChildren) {
-  return <Text style={styles.ParagraphP2}>{children}</Text>;
+  const theme = useColorScheme();
+  return <Text style={[styles.ParagraphP2, theme === 'dark' ? styles.dark : styles.light]}>{children}</Text>;
 }
 
 const styles = StyleSheet.create({
+  dark: {
+    color: '#d1e3db',
+  },
+  light: {
+    color: '#2f2a2c',
+  },
   bodyXl: {
     fontSize: 16,
     fontFamily: 'Inter',

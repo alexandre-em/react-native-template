@@ -1,11 +1,14 @@
-import { SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, View, useColorScheme } from 'react-native';
+import { Appearance, StatusBar, StyleSheet, Text, View, useColorScheme } from 'react-native';
 
-import { NativeBaseProvider } from 'native-base';
-import React from 'react';
+import { GluestackUIProvider } from '@gluestack-ui/themed';
+import React, { useEffect } from 'react';
 import type { PropsWithChildren } from 'react';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { Provider as StoreProvider } from 'react-redux';
 
+import { config } from './src/lib/gluestack-ui';
 import Router from './src/routes';
+import store from './src/store';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -40,21 +43,23 @@ function Section({ children, title }: SectionProps): React.JSX.Element {
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
 
+  useEffect(() => {
+    Appearance.setColorScheme('dark');
+  }, []);
+
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+    marginTop: 10,
+    height: 500,
   };
 
-  const safePadding = '5%';
-
   return (
-    <NativeBaseProvider>
-      <SafeAreaView style={backgroundStyle}>
+    <StoreProvider store={store}>
+      <GluestackUIProvider config={config} colorMode={isDarkMode ? 'dark' : 'light'}>
         <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} backgroundColor={backgroundStyle.backgroundColor} />
-        <ScrollView style={backgroundStyle}>
-          <Router />
-        </ScrollView>
-      </SafeAreaView>
-    </NativeBaseProvider>
+        <Router />
+      </GluestackUIProvider>
+    </StoreProvider>
   );
 }
 

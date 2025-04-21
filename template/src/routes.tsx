@@ -1,34 +1,72 @@
-import { Text, View } from 'react-native';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { PropsWithChildren, Suspense, lazy } from 'react';
-import { ErrorBoundary } from 'react-error-boundary';
+import { jwtDecode } from 'jwt-decode';
+import { lazy, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import Loading from './components/layouts/loading';
+import BottomNavbar from './components/layouts/bottom-navbar';
+import ScreenLayout from './components/layouts/screens';
+import { storageKeys } from './constants/storage';
+import { authSlice, selectAccessToken } from './store/reducers/auth';
 
-const AuthScreen = lazy(() => import('./screens/auth'));
+const Tab = createBottomTabNavigator();
+const AuthStack = createNativeStackNavigator();
 
-const RootStack = createNativeStackNavigator();
+function LoginStack() {
+  const AuthScreen = lazy(() => import('./screens/auth'));
 
-function ScreenLayout({ children }: PropsWithChildren) {
-  // TODO: Put logger catch
   return (
-    <ErrorBoundary fallback={<View />} onError={(error, info) => console.log({ error, info })}>
-      <Suspense fallback={<Loading />}>{children}</Suspense>
-    </ErrorBoundary>
+    <AuthStack.Navigator initialRouteName="Auth" screenOptions={{ headerShown: false }} screenLayout={ScreenLayout}>
+      <AuthStack.Screen name="Auth" component={AuthScreen} />
+      {/* TODO: Register screen */}
+      {/* Forget password screen */}
+      {/* Google auth callback screen */}
+    </AuthStack.Navigator>
+  );
+}
+
+function AuthenticatedStack() {
+  const HomeScreen = lazy(() => import('./screens/home'));
+
+  return (
+    <Tab.Navigator
+      initialRouteName="Home"
+      screenOptions={{ headerShown: false }}
+      screenLayout={ScreenLayout}
+      tabBar={BottomNavbar}>
+      <Tab.Screen name="Home" component={HomeScreen} />
+      {/* TODO: Track screen */}
+      {/* Trip list screen */}
+      {/* Profile screen */}
+      {/* Settings screen */}
+    </Tab.Navigator>
   );
 }
 
 export default function Router() {
-  return (
-    <NavigationContainer>
-      <Text>Test</Text>
-      <RootStack.Navigator initialRouteName="login" screenOptions={{ headerShown: false }} screenLayout={ScreenLayout}>
-        <RootStack.Group>
-          <RootStack.Screen name="login" component={AuthScreen} />
-        </RootStack.Group>
-      </RootStack.Navigator>
-    </NavigationContainer>
-  );
+  const dispatch = useDispatch();
+  const accessToken = useSelector(selectAccessToken);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    if (!accessToken) {
+      AsyncStorage.getItem(storageKeys.ACCESS_TOKEN).then(res => {
+        if (!res) setIsAuthenticated(false);
+        else {
+          const decodedToken = jwtDecode(res);
+          const now = Date.now() / 1000;
+          if (decodedToken.exp && decodedToken.exp > now) {
+            dispatch(authSlice.actions.addAccessTokenHeader(res));
+            setIsAuthenticated(true);
+          } else setIsAuthenticated(false);
+        }
+      });
+    } else {
+      setIsAuthenticated(true);
+    }
+  }, [accessToken, dispatch]);
+
+  return <NavigationContainer>{isAuthenticated ? <AuthenticatedStack /> : <LoginStack />}</NavigationContainer>;
 }

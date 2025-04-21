@@ -1,7 +1,9 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 import { RootState } from '../';
-import { authAxios, noAuthAxios } from '@/lib/axios';
+import { storageKeys } from '../../constants/storage';
+import { authAxios, noAuthAxios } from '../../lib/axios';
 
 interface UserState {
   accessToken: string | null;
@@ -30,22 +32,36 @@ type LoginResponseType = {
 };
 
 export const login = createAsyncThunk<LoginResponseType, LoginInputType>('auth/login', async input => {
-  return (await noAuthAxios.instance!.post<LoginResponseType>('/auth/login', input)).data;
+  const tokens = (await noAuthAxios.instance!.post<LoginResponseType>('/auth/login', input)).data;
+
+  await AsyncStorage.setItem(storageKeys.ACCESS_TOKEN, tokens.accessToken);
+  await AsyncStorage.setItem(storageKeys.REFRESH_TOKEN, tokens.refreshToken!);
+
+  return tokens;
 });
 
 export const refresh = createAsyncThunk<LoginResponseType, undefined>('auth/refresh', async (_, { getState }) => {
   const { auth } = getState() as RootState;
-  return (
+  const tokens = (
     await authAxios.instance!.post<LoginResponseType>('/auth/token/refresh', {
       refresh: auth.refreshToken,
     })
   ).data;
+
+  await AsyncStorage.setItem(storageKeys.ACCESS_TOKEN, tokens.accessToken);
+
+  return tokens;
 });
 
-const authSlice = createSlice({
+export const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {},
+  reducers: {
+    addAccessTokenHeader: (state, action) => {
+      state.accessToken = action.payload;
+      authAxios.addAccessTokenHeader(action.payload);
+    },
+  },
   extraReducers: builder => {
     builder.addCase(login.pending, state => {
       state.loginStatus = 'pending';
@@ -74,5 +90,7 @@ const authSlice = createSlice({
   },
 });
 
+export const selectAccessToken = (state: RootState) => state.auth.accessToken;
+export const selectRefreshToken = (state: RootState) => state.auth.refreshToken;
 export const selectLoginStatus = (state: RootState) => state.auth.loginStatus;
 export default authSlice.reducer;
