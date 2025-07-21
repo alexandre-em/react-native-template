@@ -1,19 +1,19 @@
-current directory: /Users/alexandre/workspace/perso/hiking/hiking/vendor/bundle/ruby/2.6.0/gems/json-2.7.6/ext/json/ext/parser
-/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/bin/ruby -I /System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0 -r ./siteconf20250417-63836-1yf62u1.rb extconf.rb
+current directory: /Users/alexandre/workspace/perso/template/template/vendor/bundle/ruby/2.6.0/gems/json-2.7.6/ext/json/ext/parser
+/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/bin/ruby -I /System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0 -r ./siteconf20250721-3275-130g16u.rb extconf.rb
 checking for rb_enc_raise() in ruby.h... yes
 checking for rb_enc_interned_str() in ruby.h... no
 checking for whether -std=c99 is accepted as CFLAGS... yes
 creating Makefile
 
-current directory: /Users/alexandre/workspace/perso/hiking/hiking/vendor/bundle/ruby/2.6.0/gems/json-2.7.6/ext/json/ext/parser
+current directory: /Users/alexandre/workspace/perso/template/template/vendor/bundle/ruby/2.6.0/gems/json-2.7.6/ext/json/ext/parser
 make "DESTDIR=" clean
 
-current directory: /Users/alexandre/workspace/perso/hiking/hiking/vendor/bundle/ruby/2.6.0/gems/json-2.7.6/ext/json/ext/parser
+current directory: /Users/alexandre/workspace/perso/template/template/vendor/bundle/ruby/2.6.0/gems/json-2.7.6/ext/json/ext/parser
 make "DESTDIR="
 compiling parser.c
 linking shared-object json/ext/parser.bundle
 ld: warning: search path '/AppleInternal/Library/BuildRoots/4b66fb3c-7dd0-11ef-b4fb-4a83e32a47e1/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.1.Internal.sdk/usr/local/lib' not found
 
-current directory: /Users/alexandre/workspace/perso/hiking/hiking/vendor/bundle/ruby/2.6.0/gems/json-2.7.6/ext/json/ext/parser
+current directory: /Users/alexandre/workspace/perso/template/template/vendor/bundle/ruby/2.6.0/gems/json-2.7.6/ext/json/ext/parser
 make "DESTDIR=" install
-/usr/bin/install -c -m 0755 parser.bundle ./.gem.20250417-63836-18f1u17/json/ext
+/usr/bin/install -c -m 0755 parser.bundle ./.gem.20250721-3275-1xkkcov/json/ext
